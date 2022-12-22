@@ -25,18 +25,26 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
 
+// 修改配置
 func main() {
 	// The default listening port is 8888.
 	// You can modify it with server.WithHostPorts().
+	// 传递不定数的参数
 	h := server.Default(
+		// 设置地址和端口
 		server.WithHostPorts("127.0.0.1:8080"),
+		// 设置最大请求体大小
 		server.WithMaxRequestBodySize(20<<20),
+		// 设置传输层:标准库
 		server.WithTransport(standard.NewTransporter),
 	)
 
-	h.GET("/hello", func(ctx context.Context, c *app.RequestContext) {
-		c.String(consts.StatusOK, "Hello hertz!")
-	})
+	// 设置路由
+	h.GET("/hello", helloHandler)
 
 	h.Spin()
+}
+
+func helloHandler(ctx context.Context, c *app.RequestContext) {
+	c.String(consts.StatusOK, "Hello hertz!")
 }
