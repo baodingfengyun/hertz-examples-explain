@@ -29,9 +29,12 @@ func main() {
 	// If you need a pure hertz, you can use server.New()
 	h := server.Default()
 
-	h.GET("/hello", func(ctx context.Context, c *app.RequestContext) {
-		c.String(consts.StatusOK, "Hello hertz!")
-	})
+	h.GET("/hello", helloHandler)
 
 	h.Spin()
+}
+
+// 实现了/hello的业务逻辑
+func helloHandler(ctx context.Context, c *app.RequestContext) {
+	c.String(consts.StatusOK, "Hello hertz!")
 }
